@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import LoginContext from './store/LoginContext';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+class NavMenu extends Component {
+    static displayName = NavMenu.name;
 
   constructor (props) {
     super(props);
@@ -21,7 +22,9 @@ export class NavMenu extends Component {
     });
   }
 
-  render() {
+    render() {
+        let isLoggedIn = this.context;
+        console.log(isLoggedIn);
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
@@ -32,6 +35,9 @@ export class NavMenu extends Component {
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
               </NavItem>
+              {
+                this.isLoggedIn ? <NavLink tag={Link} className="text-dark" to="/login">Logout</NavLink> : <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
+              }
               <NavItem>
                  <NavLink tag={Link} className="text-dark" to="/rank-items">Rank Items</NavLink>
               </NavItem>
@@ -42,3 +48,13 @@ export class NavMenu extends Component {
     );
   }
 }
+
+NavMenu.contextType = LoginContext;//LoginContext;
+
+function mapStateToProps(state) {
+    return {
+        isLoggedIn: state.isLoggedIn
+    };
+}
+
+export default NavMenu;
