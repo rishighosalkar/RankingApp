@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "serve": "cd ClientApp && npm run serve",
+    "build": "cd ClientApp && npm run build"
+  },
+  "-vs-binding": {
+    "BeforeBuild": [
+      "build"
+    ]
+  },
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ]
+}

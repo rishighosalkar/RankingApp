@@ -43,7 +43,7 @@ namespace RankingApp.Controllers
         public ItemModel[] Get(int itemType)
         {
             ItemModel[] items = _db.Items.Where(x => x.ItemType==itemType).ToArray();//Items.Where(x => x.ItemType== itemType).ToArray();
-            System.Threading.Thread.Sleep(2000);
+            //System.Threading.Thread.Sleep(2000);
             return items;
         }
         public IActionResult Index()

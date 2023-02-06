@@ -31,7 +31,7 @@ const Signup = () => {
             body: JSON.stringify(enteredUserData)
         })
          .catch(error => console.error('Unable to update item.', error));
-        navigate('/rank-items');
+        navigate('/login');
     }
 
     const cancelSignupDataHandler = () => {

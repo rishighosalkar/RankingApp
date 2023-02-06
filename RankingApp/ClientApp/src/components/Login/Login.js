@@ -1,6 +1,6 @@
 ﻿import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 import classes from './login.module.css';
 import LoginContext from '../store/LoginContext';
 
@@ -45,7 +45,10 @@ const Login = () => {
         fetch(`user/${username}`).then((res) => { return res.json() })
             .then(data => {
                 if (data.password === password)
-                setUsers(data)
+                    setUsers(data)
+                navigate('/rank-movies');
+                localStorage.setItem('isLoggedIn', true);
+                ctx.isLoggedInHandler(true);
             });
         console.log(users)
     }

@@ -1,45 +1,47 @@
-import React, { Component } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import LoginContext from './store/LoginContext';
 
-class NavMenu extends Component {
-    static displayName = NavMenu.name;
+const NavMenu =()=>{
+    //static displayName = NavMenu.name;
+    const [toggle, setToggle] = useState({
+        collapsed: true,
+    })
 
-  constructor (props) {
-    super(props);
+    const [isLogged, setIsLogged] = useState(false);
+    const ctx = useContext(LoginContext);
+    const { isLoggedIn } = ctx;
+    useEffect(() => {
+        setIsLogged(isLoggedIn);
+    }, [isLoggedIn]);
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
-  }
-
-  toggleNavbar () {
-    this.setState({
-      collapsed: !this.state.collapsed
+    const toggleNavbar = () => {
+        const temp = toggle.collapsed;
+     setToggle({
+      collapsed: !temp
     });
-  }
-
-    render() {
-        let isLoggedIn = this.context;
-        console.log(isLoggedIn);
+    }
+        
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
           <NavbarBrand tag={Link} to="/">RankingApp</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
+                <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+                <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!toggle.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
               </NavItem>
               {
-                this.isLoggedIn ? <NavLink tag={Link} className="text-dark" to="/login">Logout</NavLink> : <NavLink tag={Link} className="text-dark" to="/">Login</NavLink>
+                isLogged ? <NavLink tag={Link} className="text-dark" to="/">Logout</NavLink> : <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
               }
               <NavItem>
-                 <NavLink tag={Link} className="text-dark" to="/rank-items">Rank Items</NavLink>
+                { isLogged ? <NavLink tag={Link} className="text-dark" to="/rank-albums">Rank Albums</NavLink> : <></>}
+              </NavItem>
+              <NavItem>
+                { isLogged ? <NavLink tag={Link} className="text-dark" to="/rank-movies">Rank Movies</NavLink> : <></>}
               </NavItem>
             </ul>
           </Collapse>
@@ -47,14 +49,6 @@ class NavMenu extends Component {
       </header>
     );
   }
-}
 
-NavMenu.contextType = LoginContext;//LoginContext;
-
-function mapStateToProps(state) {
-    return {
-        isLoggedIn: state.isLoggedIn
-    };
-}
 
 export default NavMenu;
